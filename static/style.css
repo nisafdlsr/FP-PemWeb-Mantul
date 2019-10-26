@@ -15,7 +15,7 @@ body.coba{
 	background-image: url("https://dashboard.qiscus.com/images/dashboard/image-wave.svg");
 }
 
-/* BARIS 18-96 : UNTUK KOTAK LOGIN & REGISTER */
+/* BARIS 19-96 : UNTUK KOTAK LOGIN & REGISTER */
 .login, .register{
 	width: 400px;
 	margin: 100px auto;
