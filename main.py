@@ -111,7 +111,7 @@ def profile():
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-# RUTE UNTUK LAMAN LOGOUT => http://localhost:5000/python/logout
+# RUTE UNTUK LAMAN LOGOUT => http://localhost:5000/pythonlogin/logout
 @app.route('/pythonlogin/logout')
 def logout():
     # HAPUS DATA YANG TERSIMPAN SELAMA SESI
