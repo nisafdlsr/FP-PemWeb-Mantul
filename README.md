@@ -5,7 +5,7 @@
 Mulai dari sini :<br>
 1 <i>Clone</i> repositori ini<br>
 2 Eksekusi berkas <b>neurahealth_users.sql</b> dengan DBMS MySQL<br>
-3 Install <i>libraries</i> : <b>flask</b>, <b>MySQLdb</b>, dan <b>flask-mysqldb</b> melalui <b>pip</b><br>
+3 Install <i>libraries</i> : <b>flask</b>, <b>mysqlclient</b>, dan <b>flask-mysqldb</b> melalui <b>pip</b><br>
 4 Masuk ke dalam direktori di mana files tersebut terunduh(<i>cloned</i>)<br>
 5 Buka terminal/CMD<br>
 6 Ketikkan perintah ```export FLASK_APP=main.py```<br>
