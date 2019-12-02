@@ -9,5 +9,6 @@ Mulai dari sini :<br>
 4 Masuk ke dalam direktori di mana files tersebut terunduh(<i>cloned</i>)<br>
 5 Buka terminal/CMD<br>
 6 Ketikkan perintah ```export FLASK_APP=main.py```<br>
-7 Kemudian ```flask run```<br>
-8 Selesai :)
+7 ```export FLASK_ENV=development```<br>
+8 Kemudian ```flask run```<br>
+9 Selesai :)
