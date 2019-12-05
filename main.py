@@ -13,7 +13,9 @@ app.secret_key = 'TERSERAH'
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_PORT'] = 3307
 app.config['MYSQL_DB'] = 'neurahealth_users'
+
 mysql = MySQL(app)
 
 ############################### SUDAH MASUK KE LAMAN-LAMAN WEBSITE ###############################
@@ -155,7 +157,7 @@ def diabetes_home():
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-@app.route('/neurahealth/diabetes/diagnose', methods=['POST'])
+@app.route('/neurahealth/diabetes/diagnose', methods=['GET','POST'])
 def diabetes_input():
     AI_diabetes = load('models/diabetes.pkl')
     data1 = [[request.form['n_hamil'], request.form['glukosa'], request.form['tekanan_darah'], request.form['ketebalan_kulit'], request.form['kadar_insulin'], request.form['bmi'], request.form['riwayat'], request.form['umur']]]
@@ -182,7 +184,7 @@ def jantung_home():
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-@app.route('/neurahealth/jantung/diagnose', methods=['POST'])
+@app.route('/neurahealth/jantung/diagnose', methods=['GET','POST'])
 def jantung_input():
     AI_jantung = load('models/jantung.pkl')
     data2 = [[request.form['umur'], request.form['je_ka'], request.form['cp'], request.form['blood_pres'], request.form['chol'], request.form['fbs'], request.form['res_electro'], request.form['heart_rate'], request.form['angia'], request.form['oldpeak'], request.form['slope'], request.form['n_vena'], request.form['thal']]]
@@ -248,7 +250,7 @@ def parkinson_home():
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-@app.route('/neurahealth/parkinson/input', methods=['GET','POST'])
+@app.route('/neurahealth/parkinson/diagnose', methods=['GET','POST'])
 def parkinson_input():
     return render_template('Data_Pasien_Parkinson.html')
 
