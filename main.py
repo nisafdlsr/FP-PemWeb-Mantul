@@ -1,4 +1,5 @@
 import re
+from joblib import load
 import MySQLdb.cursors
 from flask_mysqldb import MySQL
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -15,8 +16,20 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'neurahealth_users'
 mysql = MySQL(app)
 
-# RUTE UNTUK LAMAN LOGIN => http://localhost:5000/pythonlogin/
-@app.route('/pythonlogin/', methods=['GET', 'POST'])
+############################### SUDAH MASUK KE LAMAN-LAMAN WEBSITE ###############################
+
+# UNTUK MENAMPILKAN LAMAN UTAMA
+@app.route('/', methods=['GET'])
+def main_page():
+    return render_template('Halaman_Utama.html')
+
+# UNTUK MENAMPILKAN LAMAN ABOUT
+@app.route('/about', methods=['GET'])
+def about():
+    return render_template('Tentang_Kami.html')
+
+# RUTE UNTUK LAMAN LOGIN
+@app.route('/login/', methods=['GET', 'POST'])
 def login():
     msg = ''   # VARIABEL UNTUK MENAMPUNG PESAN
     
@@ -44,10 +57,10 @@ def login():
         else:
             msg = 'Email/password salah!'
     
-    return render_template('index.html', msg=msg)
+    return render_template('Laman_Login.html', msg=msg)
 
-# RUTE UNTUK LAMAN REGISTER => http://localhost:5000/pythinlogin/register
-@app.route('/pythonlogin/register', methods=['GET', 'POST'])
+# RUTE UNTUK LAMAN REGISTER
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     msg = '' # VARIABEL UNTUK MENAMPUNG PESAN
 
@@ -84,20 +97,20 @@ def register():
     elif request.method == 'POST':
         msg = 'Masih ada data yang belum dimasukkan!'
 
-    return render_template('register.html', msg=msg)
+    return render_template('Laman_Register.html', msg=msg)
 
-# RUTE UNTUK LAMAN HOME => http://localhost:5000/pythinlogin/home
-@app.route('/pythonlogin/home')
+# RUTE UNTUK LAMAN BERANDA - SETELAH LOGIN
+@app.route('/neurahealth')
 def home():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
-        return render_template('home.html', doctor_name=session['doctor_name'])
+        return render_template('Beranda.html', doctor_name=session['doctor_name'])
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-# RUTE UNTUK LAMAN PROFIL => http://localhost:5000/pythinlogin/profile
-@app.route('/pythonlogin/profile')
+# RUTE UNTUK LAMAN PROFIL - HARUS LOGIN DULU
+@app.route('/neurahealth/profile')
 def profile():
     # CEK APAKAH USER SUDAH LOGIN
     if 'loggedin' in session:
@@ -106,13 +119,23 @@ def profile():
         cursor.execute('SELECT * FROM accounts WHERE doctor_id = %s', [session['doctor_id']])
         account = cursor.fetchone()   # AMBIL SATU DATA
         
-        return render_template('profile.html', account=account)
+        return render_template('Laman_Profil.html', account=account)
     
     # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
 
-# RUTE UNTUK LAMAN LOGOUT => http://localhost:5000/pythonlogin/logout
-@app.route('/pythonlogin/logout')
+# RUTE UNTUK LAMAN DAFTAR PENYAKIT - HARUS LOGIN DULU
+@app.route('/neurahealth/diseases')
+def diseases():
+    # CEK APAKAH USER SUDAH LOGIN
+    if 'loggedin' in session:
+        return render_template('Pilihan_Penyakit.html', doctor_name=session['doctor_name'])
+    
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+# RUTE UNTUK LAMAN LOGOUT
+@app.route('/logout')
 def logout():
     # HAPUS DATA YANG TERSIMPAN SELAMA SESI
     session.pop('loggedin', None)
@@ -120,4 +143,115 @@ def logout():
     session.pop('doctor_name', None)
     
     # BALIK KE LAMAN LOGIN
+    return redirect(url_for('main_page'))
+
+############################### KHUSUS PENYAKIT-PENYAKIT ###############################
+
+# PENYAKIT DIABETES
+@app.route('/neurahealth/diabetes')
+def diabetes_home():
+    if 'loggedin' in session:
+        return render_template('Beranda_Diabetes.html', doctor_name=session['doctor_name'])
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
     return redirect(url_for('login'))
+
+@app.route('/neurahealth/diabetes/diagnose', methods=['POST'])
+def diabetes_input():
+    AI_diabetes = load('models/diabetes.pkl')
+    data1 = [[request.form['n_hamil'], request.form['glukosa'], request.form['tekanan_darah'], request.form['ketebalan_kulit'], request.form['kadar_insulin'], request.form['bmi'], request.form['riwayat'], request.form['umur']]]
+    
+    hasil = AI_diabetes.predict_proba(data1)
+    iya = hasil[0][0]*100
+    tidak = hasil[0][1]*100
+    
+    hasil = "Pasien terdiagnosa " + str(tidak) +"% terkena penyakit diabetes dan " + str(iya) + "% tidak terkena penyakit diabetes"
+    return(hasil)
+
+@app.route('/neurahealth/diabetes/data')
+def diabetes_data():
+    if 'loggedin' in session:
+        return render_template('Data_Pasien_Diabetes.html', doctor_name=session['doctor_name'])
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+# PENYAKIT JANTUNG
+@app.route('/neurahealth/jantung')
+def jantung_home():
+    if 'loggedin' in session:
+        return render_template('Beranda_Jantung.html', doctor_name=session['doctor_name'])
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/jantung/diagnose', methods=['POST'])
+def jantung_input():
+    AI_jantung = load('models/jantung.pkl')
+    data2 = [[request.form['umur'], request.form['je_ka'], request.form['cp'], request.form['blood_pres'], request.form['chol'], request.form['fbs'], request.form['res_electro'], request.form['heart_rate'], request.form['angia'], request.form['oldpeak'], request.form['slope'], request.form['n_vena'], request.form['thal']]]
+    
+    hasil1 = AI_jantung.predict_proba(data2)
+    iya1 = hasil[0][0]*100
+    tidak1 = hasil[0][1]*100
+    return(tidak1)
+    hasil1 = "Pasien terdiagnosa " + str(tidak1) +"% terkena penyakit jantung dan " + str(iya1) + "% tidak terkena penyakit jantung"
+    
+    return(hasil1)
+
+@app.route('/neurahealth/jantung/data')
+def jantung_data():
+    if 'loggedin' in session:
+        return render_template('Data_Pasien_Jantung.html', doctor_name=session['doctor_name'])
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+# MALARIA
+@app.route('/neurahealth/malaria', methods=['GET','POST'])
+def malaria_home():
+    return render_template('Beranda_Malaria.html')
+
+@app.route('/neurahealth/malaria/diagnose')
+def malaria_input():
+    # CEK APAKAH USER SUDAH LOGIN
+    if 'loggedin' in session:
+        return render_template('inputan_malaria.html', doctor_name=session['doctor_name'])
+    
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/malaria/data', methods=['GET','POST'])
+def malaria_data():
+    return render_template('Data_Pasien_Malaria.html')
+
+# TUMOR OTAK
+@app.route('/neurahealth/tumor', methods=['GET','POST'])
+def tumor_home():
+    return render_template('Beranda_Tumor.html')
+
+@app.route('/neurahealth/tumor/diagnose')
+def tumor_input():
+    # CEK APAKAH USER SUDAH LOGIN
+    if 'loggedin' in session:
+        return render_template('inputan_tumor_otak.html', doctor_name=session['doctor_name'])
+    
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/tumor/data', methods=['GET','POST'])
+def tumor_data():
+    return render_template('Data_Pasien_Tumor.html')
+
+# PARKINSON
+@app.route('/neurahealth/parkinson')
+def parkinson_home():
+    # CEK APAKAH USER SUDAH LOGIN
+    if 'loggedin' in session:
+        return render_template('Beranda_Parkinson.html', doctor_name=session['doctor_name'])
+    
+    # JIKA BELUM LOGIN MAKA BALIK KE LAMAN LOGIN
+    return redirect(url_for('login'))
+
+@app.route('/neurahealth/parkinson/input', methods=['GET','POST'])
+def parkinson_input():
+    return render_template('Data_Pasien_Parkinson.html')
+
+@app.route('/neurahealth/parkinson/data', methods=['GET','POST'])
+def parkinson_data():
+    return render_template('Data_Pasien_Parkinson.html')

@@ -1,0 +1,64 @@
+{% extends 'Layout_Setelah_Login.html' %}             <!-- MEMUAT TEMPLATE DARI layout.html -->
+{% block title %}Profil{% endblock %}  <!-- NAMA TAB = Profile -->
+
+{% block content %}     <!-- MEMUAT BAGIAN TEMPLATE KONTEN DARI layout.html -->
+<h2>Profil Rumah Sakit</h2>
+<div>
+    <div class=profile_pict>
+        <img src="https://svgur.com/i/GVK.svg" height=65% width=65%>
+    </div>
+
+    <div class=profile_descr>
+        <p>Ini adalah detail akun Anda :</p>
+        <table>
+            <!-- DATA-DATA DI BAWAH INI DIAMBIL DARI DATABASE -->
+            <tr>
+                <td>Nama Pengguna</td>
+                <td>: {{ account['doctor_name'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Sandi Lewat</td>
+                <td>: {{ account['pass_word'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Surat Elektronik</td>
+                <td>: {{ account['email'] }}</td>
+            </tr>
+             <tr>
+                <td>Nama Rumah Sakit</td>
+                <td>: {{ account['hospital_name'] }}</td>
+            </tr>
+             <tr>
+                <td>Kode Rumah Sakit</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Spesialis Malaria</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Spesialis Jantung</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Spesialis Kanker Otak</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+
+            <tr>
+                <td>Spesialis Diabetes</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+             <tr>
+                <td>Spesialis Parkinson</td>
+                <td>: {{ account['hospital_code'] }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+{% endblock %}

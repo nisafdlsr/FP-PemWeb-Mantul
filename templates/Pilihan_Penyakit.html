@@ -1,0 +1,65 @@
+{% extends 'Layout_Setelah_Login.html' %}
+{% block title %}Pilih Jenis Penyakit{% endblock %}
+
+{% block content %}
+<h2> Pilihan Penyakit</h2>
+<div class = "container">
+  <div class = "row mb-5">
+
+      <div class = "col-md">
+        <div class="card bg-white text-center">
+          <div class="card-body">
+            <img src="https://i.ibb.co/L69XqxZ/malaria.png" style=" width: 200px;">
+            <h5 class="card-title">Malaria</h5>
+            <a href="{{ url_for('malaria_home') }}" class="btn btn-primary">Periksa Sekarang </a>
+          </div>
+        </div>
+      </div>
+
+      <div class = "col-md">
+        <div class="card bg-white text-center">
+          <div class="card-body">
+            <img src="https://i.ibb.co/Ypsjns4/jantung2.png" style=" width: 200px;">
+            <h5 class="card-title">Jantung</h5>
+            <a href="{{ url_for('jantung_home') }}" class="btn btn-primary">Periksa Sekarang </a>
+          </div>
+        </div>
+      </div>
+
+      <div class = "col-md">
+        <div class="card bg-white text-center">
+          <div class="card-body">
+            <img src="https://i.ibb.co/9bPP39L/tumor-otak.png" style=" width: 200px;">
+            <h5 class="card-title">Tumor Otak</h5>
+            <a href="{{ url_for('tumor_home') }}" class="btn btn-primary">Periksa Sekarang </a>
+          </div>
+        </div>
+      </div>          
+
+    <div class = "row mb-5">
+
+      <div class = "col-md">
+        <div class="card bg-white text-center">
+          <div class="card-body">
+            <img src="https://i.ibb.co/Mh9wTQV/diabetes.png" style=" width: 200px;">
+            <h5 class="card-title">Diabetes</h5>
+            <a href="{{ url_for('diabetes_home') }}" class="btn btn-primary">Periksa Sekarang </a>
+          </div>
+        </div>
+      </div>
+  
+      <div class = "col-md">
+        <div class="card bg-white text-center">
+          <div class="card-body">
+            <img src="https://i.ibb.co/pr5bY8X/parkinson-png.png" style=" width: 200px;">
+            <h5 class="card-title">Parkinson</h5>
+            <a href="{{ url_for('parkinson_home') }}" class="btn btn-primary">Periksa Sekarang </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    
+    </div>
+  </div>
+{% endblock %}

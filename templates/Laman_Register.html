@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+	<head>
+		<meta charset="utf-8">
+		<title>Daftar</title>
+		<link rel="shortcut icon" type="image/png" href="https://i.ibb.co/QDd01hK/favicon.png"/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+	</head>
+	
+	<body class="coba">
+		<div class="register">
+	
+			<h1>Neura Health</h1>
+			<div class="links">
+				<a href="{{ url_for('login') }}">Masuk</a>								<!-- FUNGSI login() dari main.py YANG AKAN DIRENDER OLEH TEMPLATE ENGINE -->
+				<a href="{{ url_for('register') }}" class="active">Daftar</a>	<!-- FUNGSI register() dari main.py YANG AKAN DIRENDER OLEH TEMPLATE ENGINE -->
+			</div>
+	
+			<!-- BAGIAN KOTAK FORM -->
+			<form action="{{ url_for('register') }}" method="post" autocomplete="off">
+				<label for="doctor_name"> <i class="fas fa-user"></i> </label>		<!-- LOGO AKUN -->
+				<input type="text" name="doctor_name" placeholder="Nama Pengguna" id="doctor_name" required>
+				
+				<label for="password"> <i class="fas fa-lock"></i> </label>		<!-- LOGO PASSWORD -->
+				<input type="password" name="pass_word" placeholder="Sandi Lewat" id="pass_word" required>
+				
+				<label for="email"> <i class="fas fa-envelope"></i> </label>	<!-- LOGO SUREL -->
+				<input type="email" name="email" placeholder="Surel" id="email" required>
+
+				<label for="hospital_name"> <i class="fas fa-stethoscope"></i> </label>	<!-- LOGO STETOSKOP -->
+				<input type="text" name="hospital_name" placeholder="Nama Rumah Sakit" id="hospital_name" required>
+
+				<label for="hospital_code"> <i class="fas fa-barcode"></i> </label>	<!-- LOGO BARCODE -->
+				<input type="text" name="hospital_code" placeholder="Kode Rumah Sakit" id="hospital_code" required>
+				
+				<div class="msg">{{ msg }}</div>		<!-- VARIABEL DARI main.py YANG AKAN DIEKSEKUSI OLEH TEMPLATE ENGINE -->
+				<input type="submit" value="Register">
+			</form>
+	
+		</div>
+	</body>
+</html>

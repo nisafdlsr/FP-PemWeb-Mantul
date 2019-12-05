@@ -4,18 +4,17 @@
   	font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
 }
 
-body{ margin: 0;
-}
+body{	margin: 0; }
 
 /* UNTUK BACKGROUND LAMAN LOGIN & REGISTER */  
 body.coba{
-	background-size: cover;
+	background-size: fixed;
 	background-repeat: no-repeat;
 	background-position: top center;
 	background-image: url("https://dashboard.qiscus.com/images/dashboard/image-wave.svg");
 }
 
-/* BARIS 19-96 : UNTUK KOTAK LOGIN & REGISTER */
+/* BARIS 18-96 : UNTUK KOTAK LOGIN & REGISTER */
 .login, .register{
 	width: 400px;
 	margin: 100px auto;
@@ -179,3 +178,20 @@ body.loggedin{
 	padding: 5px;
 	margin: 0 0 10px 0;
 }
+
+.profile_pict{
+	padding-left: 7.5%;
+	width: 50%;
+   float: left;
+}
+
+.profile_descr{
+	float: right;
+   width: 50%;
+}
+
+.card{
+	color: green;
+	box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.9);
+
+ }
